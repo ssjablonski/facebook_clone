@@ -52,10 +52,14 @@ const deletePlan = (id) => {
 
 }
 
-const createPlan = (name, description) => {
+const createPlan = (userId, name, description) => {
   session
-  .run(`CREATE (p:Plan {name: $name, description: $description}) RETURN p`, { name: name, description: description })
-  .then((result) => {
+      .run(`MATCH (u:User) WHERE ID(u) = $userId
+          CREATE (p:Plan {name: $name, description: $description})
+          CREATE (u)-[:AUTHOR]->(p)
+          RETURN p
+          `, { userId: parseInt(userId), name: name, description: description })
+      .then((result) => {
       const plan = result.records.map((record) => {
         return {
           id: record._fields[0].identity.low,

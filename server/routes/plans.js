@@ -17,8 +17,8 @@ router.delete("/:id", async (req, res) => {
     res.send(`Plan with id ${req.params.id} deleted!`);
 });
 
-router.post("/add", async (req, res) => {
-    const plan = await createPlan(req.body.name, req.body.description);
+router.post("/add/:id", async (req, res) => {
+    const plan = await createPlan(req.params.id, req.body.name, req.body.description);
     res.send("Plan created!");
 });
 

@@ -6,7 +6,11 @@ const session = driver.session();
 
 const addExcerciseToPlan = (planId, excerciseId) => {
     session
-        .run(`MATCH (p:Plan), (e:Excercise) WHERE id(p) = $planId AND id(e) = $excerciseId CREATE (p)-[r:CONTAINS]->(e) RETURN p, e`, { planId: parseInt(planId), excerciseId: parseInt(excerciseId) })
+        .run(`MATCH (p:Plan), (e:Exercise)
+            WHERE id(p) = $planId AND id(e) = $excerciseId
+            CREATE (p)-[r:CONTAINS]->(e)
+            RETURN p, e
+            `, { planId: parseInt(planId), excerciseId: parseInt(excerciseId) })
         .then((result) => {
             console.log(result);
         })
@@ -17,7 +21,9 @@ const addExcerciseToPlan = (planId, excerciseId) => {
 
 const removeExcerciseFromPlan = (planId, excerciseId) => {
     session
-        .run(`MATCH (p:Plan)-[r:CONTAINS]->(e:Excercise) WHERE id(p) = $planId AND id(e) = $excerciseId DETACH DELETE r`, { planId: parseInt(planId), excerciseId: parseInt(excerciseId) })
+        .run(`MATCH (p:Plan)-[r:CONTAINS]->(e:Exercise) WHERE id(p) = $planId AND id(e) = $excerciseId 
+                DELETE r
+                RETURN p`, { planId: parseInt(planId), excerciseId: parseInt(excerciseId) })
         .then((result) => {
             console.log(result);
         })
@@ -60,12 +66,12 @@ const deleteSession = (sessionId) => {
 const addSetToExcercise = (sessionId, excerciseId, weight, reps) => {
     session
         .run(`MATCH (e:Exercise), (ss:Session)
-            WHERE id(e) = $exerciseId AND id(ss) = $sessionId
+            WHERE ID(e) = $excerciseId AND ID(ss) = $sessionId
             CREATE (s:Set)-[:OF]->(e)
             SET s.weight = $weight, s.reps = $reps
             CREATE (s)-[:DID_ON]->(ss)
             RETURN s
-            `, { excerciseId: parseInt(excerciseId), sessionId: parseInt(sessionId), weight: parseInt(weight), reps: parseInt(reps) })
+            `, { sessionId: parseInt(sessionId), excerciseId: parseInt(excerciseId),  weight: parseInt(weight), reps: parseInt(reps) })
         
         .then((result) => {
             console.log(result);
