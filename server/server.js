@@ -3,11 +3,13 @@ import cors from 'cors';
 
 const app = express();
 import { router as plans } from './routes/plans.js';
+import { router as users } from './routes/user.js';
 
 app.use(express.json());
 app.use(cors());
 
 app.use('/plan' , plans);
+app.use('/user' , users);
 
 app.use('/', (req, res) => {
     res.send('Hejka tu lenka!');
