@@ -4,12 +4,14 @@ import cors from 'cors';
 const app = express();
 import { router as plans } from './routes/plans.js';
 import { router as users } from './routes/user.js';
+import { router as plan } from './routes/plan.js';
 
 app.use(express.json());
 app.use(cors());
 
-app.use('/plan' , plans);
+app.use('/plans' , plans);
 app.use('/user' , users);
+app.use('/plan' , plan);
 
 app.use('/', (req, res) => {
     res.send('Hejka tu lenka!');
