@@ -6,13 +6,14 @@ import dotenv from 'dotenv';
 import multer from 'multer';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import path from 'path';
 import { fileURLToPath } from 'url';
-import exp from 'constants';
 
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
+import postsRoutes from './routes/posts.js';
 import { register } from './controllers/auth.js';
+import { createPost } from './controllers/posts.js';
+import { verifyToken } from './middleware/auth.js';
 
 dotenv.config();
 const app = express();
@@ -37,9 +38,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.post('/auth/register', upload.single('picture'), register); // ! to dlatego tak bo potrzebujemy upload do zapisania zdjecia
+app.post('/posts', verifyToken, upload.single('picture'), createPost);
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/posts', postsRoutes)
 
 
 const PORT = process.env.PORT || 6001;
