@@ -10,6 +10,33 @@ export const getUser = async (req, res) => {
     }
 }
 
+export const updateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { firstName, lastName, occupation, location, picturePath } = req.body;
+        const user = await User.findById(id);
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (occupation) user.occupation = occupation;
+        if (location) user.location = location;
+        if (picturePath) user.picturePath = picturePath;
+        await user.save();
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+}
+
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await User.findByIdAndDelete(id);
+        res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+}
+
 export const getUserFriends = async (req, res) => {
     try {
         const { id } = req.params;

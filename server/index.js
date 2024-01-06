@@ -14,6 +14,8 @@ import postsRoutes from './routes/posts.js';
 import { register } from './controllers/auth.js';
 import { createPost } from './controllers/posts.js';
 import { verifyToken } from './middleware/auth.js';
+import User from './models/User.js';
+import Post from './models/Post.js';
 
 dotenv.config();
 const app = express();
@@ -47,4 +49,10 @@ app.use('/posts', postsRoutes)
 
 const PORT = process.env.PORT || 6001;
 mongoose.connect(process.env.MONGO_URL).then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))).catch((error) => console.log(error.message));
+
+
+
+
+
+
 
