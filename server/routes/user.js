@@ -10,7 +10,7 @@ router.get('/:id/friends', verifyToken, getUserFriends);
 
 router.patch('/:id/update', verifyToken, updateUser)
 
-router.delelte('/:id/delete', verifyToken, deleteUser);
+router.delete('/:id/delete', verifyToken, deleteUser);
 
 router.patch('/:id/:friendId/add', verifyToken, addFriend);
 
