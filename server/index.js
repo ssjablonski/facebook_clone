@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url';
 import exp from 'constants';
 
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/user.js';
 import { register } from './controllers/auth.js';
 
 dotenv.config();
@@ -38,6 +39,7 @@ const upload = multer({ storage });
 app.post('/auth/register', upload.single('picture'), register); // ! to dlatego tak bo potrzebujemy upload do zapisania zdjecia
 
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 
 const PORT = process.env.PORT || 6001;
