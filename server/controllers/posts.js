@@ -57,7 +57,7 @@ export const deletePost = async (req, res) => {
 
 export const getFeedPost = async (req, res) => {
     try {
-        const { userId } = req.body;
+        const { userId } = req.params;
         const user = await User.findById(userId);
         const friends = user.friends;
 

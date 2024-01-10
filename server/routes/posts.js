@@ -4,7 +4,7 @@ import { createPost, deletePost, getFeedPost, getUserPost, likeUnlikePost, updat
 
 const router = express.Router();
 
-router.get('/', verifyToken, getFeedPost);
+router.get('/:userId', verifyToken, getFeedPost);
 
 router.post('/create', verifyToken, createPost);
 
