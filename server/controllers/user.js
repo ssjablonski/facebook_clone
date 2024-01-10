@@ -14,13 +14,16 @@ export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
         const { firstName, lastName, occupation, location, picturePath } = req.body;
-        const user = await User.findById(id);
-        if (firstName) user.firstName = firstName;
-        if (lastName) user.lastName = lastName;
-        if (occupation) user.occupation = occupation;
-        if (location) user.location = location;
-        if (picturePath) user.picturePath = picturePath;
-        await user.save();
+
+        const update = {};
+        if (firstName) update.firstName = firstName;
+        if (lastName) update.lastName = lastName;
+        if (occupation) update.occupation = occupation;
+        if (location) update.location = location;
+        if (picturePath) update.picturePath = picturePath;
+
+        const user = await User.findByIdAndUpdate(id, update, { new: true });
+
         res.status(200).json(user);
     } catch (error) {
         res.status(404).json({ error: error.message });

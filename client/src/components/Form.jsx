@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setLogin } from 'reducer'
 import Dropzone from 'react-dropzone'
+import TextField from '@mui/material/TextField';
 
 
 const registerValidation = Yup.object().shape({
@@ -62,8 +63,6 @@ function Form() {
         const loggedIn = await loggedInResponse.json();
 
         onSubmitProps.resetForm();
-        console.log(loggedIn.user)
-        // console.log(loggedInResponse.status)
         if (loggedInResponse.status === 200) {
             dispatch(
                 setLogin({
@@ -71,7 +70,6 @@ function Form() {
                 token: loggedIn.token,
                 })
             );
-            console.log('log')
             navigate("/home");
         }
         
@@ -91,7 +89,6 @@ function Form() {
         onSubmitProps.resetForm();
 
         if (registerResponse.status === 201) {
-            console.log('yes')
             setPageType("login");
         }
 
@@ -123,28 +120,171 @@ function Form() {
             <form onSubmit={formik.handleSubmit} className='flex flex-col'>
                 {pageType === 'login' ? (
                     <>
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="text" id="email" name="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Email" />
-                        {formik.touched.email && formik.errors.email ? <div className='login-form-error'>{formik.errors.email}</div> : null}
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="password" id="password" name="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Password" />
-                        {formik.touched.password && formik.errors.password ? <div className='login-form-error'>{formik.errors.password}</div> : null}
+                        <TextField
+                            required
+                            size="normal"
+                            error={formik.errors.email ? true : false}
+                            helperText={formik.errors.email ? formik.errors.email : null}
+                            variant="outlined"
+                            label="Email"
+                            type="text"
+                            id="email"
+                            name="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            // className='pb-2 text-red-600 rounded-xl mb-4'
+                        />
+                        <TextField
+                            required
+                            size="normal"
+                            error={formik.errors.password ? true : false}
+                            helperText={formik.errors.password ? formik.errors.password : null}
+                            variant="outlined"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                        />
 
                     </>
                 ) : (
                     <>
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="text" id="firstName" name="firstName" value={formik.values.firstName} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="First Name" />
-                        {formik.touched.firstName && formik.errors.firstName ? <div className='text-red-600'>{formik.errors.firstName}</div> : null}
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="text" id="lastName" name="lastName" value={formik.values.lastName} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Last Name" />
-                        {formik.touched.lastName && formik.errors.lastName ? <div className='text-red-600'>{formik.errors.lastName}</div> : null}
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="email" id="email" name="email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Email" />
-                        {formik.touched.email && formik.errors.email ? <div className='text-red-600'>{formik.errors.email}</div> : null}
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="password" id="password" name="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Password" />
-                        {formik.touched.password && formik.errors.password ? <div className='text-red-600'>{formik.errors.password}</div> : null}
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="password" id="confirmPassword" name="confirmPassword" value={formik.values.confirmPassword} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Confirm Password" />
-                        {formik.touched.confirmPassword && formik.errors.confirmPassword ? <div className='text-red-600'>{formik.errors.confirmPassword}</div> : null}
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="text" id="location" name="location" value={formik.values.location} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Location" />
-                        {formik.touched.location && formik.errors.location ? <div className='text-red-600'>{formik.errors.location}</div> : null}
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="text" id="occupation" name="occupation" value={formik.values.occupation} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Occupation" />
-                        {formik.touched.occupation && formik.errors.occupation ? <div className='text-red-600'>{formik.errors.occupation}</div> : null}
+                        <TextField
+                            required
+                            size="large" 
+                            error={formik.errors.firstName ? true : false} 
+                            helperText={formik.errors.firstName ? formik.errors.firstName : null}
+                            variant="outlined" 
+                            label="First Name" 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            value={formik.values.firstName} 
+                            onChange={formik.handleChange} 
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                        />
+                        <TextField
+                            required
+                            size="large"
+                            error={formik.errors.lastName ? true : false}
+                            helperText={formik.errors.lastName ? formik.errors.lastName : null}
+                            variant="outlined"
+                            label="Last Name"
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            value={formik.values.lastName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                        />
+                        <TextField
+                            required
+                            size="large" 
+                            error={formik.errors.email ? true : false} 
+                            helperText={formik.errors.email ? formik.errors.email : null}
+                            variant="outlined" 
+                            label="Email" 
+                            type="text" 
+                            id="email" 
+                            name="email" 
+                            value={formik.values.email} 
+                            onChange={formik.handleChange} 
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                            
+                        />
+                        <TextField
+                            required
+                            size="large" 
+                            error={formik.errors.password ? true : false} 
+                            helperText={formik.errors.password ? formik.errors.password : null}
+                            variant="outlined" 
+                            label="Password" 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            value={formik.values.password} 
+                            onChange={formik.handleChange} 
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                        />
+                        <TextField
+                            required
+                            size="large" 
+                            error={formik.errors.confirmPassword ? true : false} 
+                            helperText={formik.errors.confirmPassword ? formik.errors.confirmPassword : null}
+                            variant="outlined" 
+                            label="Confirm Password" 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            value={formik.values.confirmPassword} 
+                            onChange={formik.handleChange} 
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                        />
+                        <TextField
+                            required
+                            size="large"
+                            error={formik.errors.location ? true : false}
+                            helperText={formik.errors.location ? formik.errors.location : null}
+                            variant="outlined"
+                            label="Location"
+                            type="text"
+                            id="location"
+                            name="location"
+                            value={formik.values.location}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                        />
+                        <TextField
+                            required
+                            size="large"
+                            error={formik.errors.occupation ? true : false}
+                            helperText={formik.errors.occupation ? formik.errors.occupation : null}
+                            variant="outlined"
+                            label="Occupation"
+                            type="text"
+                            id="occupation"
+                            name="occupation"
+                            value={formik.values.occupation}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                            className='pb-2 text-black rounded-xl m-2'
+                        />
+                            {/* <TextField
+                                required
+                            size="large"
+                            error={formik.errors.picturePath ? true : false}
+                            helperText={formik.errors.picturePath ? formik.errors.picturePath : null}
+                            variant="outlined"
+                            label="Picture Path"
+                            type="text"
+                            id="picturePath"
+                            name="picturePath"
+                            value={formik.values.picturePath}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            margin="dense"
+                        />className='pb-2 text-black bg-blue-600' */}
+                        
                     </>
                 )}
                 <button type="submit" id='submit' className='rounded-3xl bg-black text-white p-3 mb-2'>Submit</button>
