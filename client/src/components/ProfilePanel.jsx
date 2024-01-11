@@ -17,7 +17,7 @@ function ProfilePanel() {
     const {mode, setMode} = useContext(ThemeContext);
 
     async function deleteAccount(id) {
-            const deleteUserRes = await fetch(`http://localhost:3001/user/${user._id}/delete`, {
+            const deleteUserRes = await fetch(`http://localhost:3001/user/${id}/delete`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -27,8 +27,6 @@ function ProfilePanel() {
             if (deleteUserRes.status === 200) {
                 dispatch(setLogout());
             }
-            
-           
         }
     
     return (
