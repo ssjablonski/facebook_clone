@@ -9,7 +9,7 @@ import { setLogout } from 'reducer';
 
 function ProfilePanel() {
     const [edit, setEdit] = useState(false);
-    const [render, setRender] = useState(false);
+    const { render, setRender} = useContext(ThemeContext)
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const dispatch = useDispatch();
@@ -29,19 +29,19 @@ function ProfilePanel() {
     
     return (
         <div className={`flex flex-col border border-black ${paleta.primary} ${paleta.text} text-black rounded-xl mr-2 p-4`}>
-            <div className="flex justify-between">
+            <div className={`flex justify-between ${paleta.colorText}`}>
                 <Avatar alt={user.firstName} src="../public/assets/twitter.png" />
                     <div>
                         <button className='mr-2' onClick={
                             () => setEdit(!edit)
                         }>
-                            <EditIcon />
+                            <EditIcon fontSize="large" />
                         </button>
                         <button onClick={
                             () => deleteAccount(user._id)
 
                         }>
-                            <DeleteIcon />
+                            <DeleteIcon fontSize="large" />
                         </button>    
                     </div>
 

@@ -7,23 +7,7 @@ import { updateUser } from 'reducer'
 import { ThemeContext } from 'context/ThemeContext'
 
 
-Yup.object().shape({
-    firstName: Yup.string()
-        .required('Required')
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required(),
-    lastName: Yup.string()
-        .required('Required')
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!'),
-    location: Yup.string().required('Required'),
-    occupation: Yup.string().required('Required'),
-    picturePath: Yup.string().required('Required'),
-    })
-
 function UpdateForm({info}) {
-    const [render, setRender] = info;
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const dispatch = useDispatch();
@@ -40,12 +24,9 @@ function UpdateForm({info}) {
         },
         validationSchema: Yup.object().shape({
             firstName: Yup.string()
-                
                 .min(2, 'Too Short!')
-                .max(50, 'Too Long!')
-                .required(),
+                .max(50, 'Too Long!'),
             lastName: Yup.string()
-                
                 .min(2, 'Too Short!')
                 .max(50, 'Too Long!'),
             location: Yup.string(),

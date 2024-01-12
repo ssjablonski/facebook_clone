@@ -9,7 +9,7 @@ import CreatePost from 'components/CreatePost';
 function HomePage() {
   const user = useSelector((state) => state.user);
   const { paleta } = useContext(ThemeContext);
-  const [render, setRender] = useState(true);
+  const { render, setRender} = useContext(ThemeContext)
 
   if (!user) {
     return <Navigate to="/" />;

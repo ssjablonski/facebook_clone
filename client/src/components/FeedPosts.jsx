@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from 'reducer';
 import Post from './Post';
 import { useLocation } from 'react-router-dom';
+import { ThemeContext } from 'context/ThemeContext';
 
 function FeedPosts({info}) {
-    const [render, setRender] = info
+    const { render, setRender} = useContext(ThemeContext)
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
     const token = useSelector((state) => state.token);
