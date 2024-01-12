@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { setLogin } from 'reducer'
 import Dropzone from 'react-dropzone'
 import TextField from '@mui/material/TextField';
+import { ThemeContext } from 'context/ThemeContext'
 
 
 const registerValidation = Yup.object().shape({
@@ -53,6 +54,7 @@ function Form() {
     const [pageType, setPageType] = React.useState('login')
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { mode, setMode, paleta } = useContext(ThemeContext);
 
     async function login(values, onSubmitProps) {
         const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
@@ -267,28 +269,14 @@ function Form() {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             margin="dense"
-                            className='pb-2 text-black rounded-xl m-2'
+                            className='pb-2 text-white rounded-xl m-2'
                         />
-                            {/* <TextField
-                                required
-                            size="large"
-                            error={formik.errors.picturePath ? true : false}
-                            helperText={formik.errors.picturePath ? formik.errors.picturePath : null}
-                            variant="outlined"
-                            label="Picture Path"
-                            type="text"
-                            id="picturePath"
-                            name="picturePath"
-                            value={formik.values.picturePath}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            margin="dense"
-                        />className='pb-2 text-black bg-blue-600' */}
+                            
                         
                     </>
                 )}
-                <button type="submit" id='submit' className='rounded-3xl bg-black text-white p-3 mb-2'>Submit</button>
-                <button type="button" id="changeForm" className='rounded-3xl bg-black text-white p-3 mb-2' onClick={handleChange}>
+                <button type="submit" id='submit' className={`rounded-3xl ${paleta.color} text-black p-3 mb-2`}>Submit</button>
+                <button type="button" id="changeForm" className={`rounded-3xl ${paleta.color} text-black p-3 mb-2`} onClick={handleChange}>
                     {pageType === 'login' ? "Don't have an account? Register!" : "Already have an account? Login!"}
                 </button>
             </form>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import TextareaAutosize from 'react-textarea-autosize';
 import SendIcon from '@mui/icons-material/Send';
@@ -9,6 +9,7 @@ import { RadioGroup, FormControlLabel, Radio, FormLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { addPost } from 'reducer';
 import { create } from '@mui/material/styles/createTransitions';
+import { ThemeContext } from 'context/ThemeContext';
 
 
 
@@ -21,6 +22,7 @@ function CreatePost({info}) {
     const [privacy, setPrivacy] = useState('public');
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
+    const { mode, setMode, paleta } = useContext(ThemeContext);
 
 
     async function handlePost() {
@@ -51,13 +53,13 @@ function CreatePost({info}) {
     }
 
     return (
-        <div className='flex flex-col justify-center mb-2 bg-white p-4 rounded-xl'>
+        <div className={`flex flex-col justify-center mb-2 ${paleta.primary} ${paleta.text} p-4 rounded-xl`}>
             <div className='flex'>
                 <div className='mr-4 flex justify-center items-center'>
                     <Avatar src={user.picturePath}/>
                 </div>
                 <TextareaAutosize
-                    className="resize-none p-4 w-full focus:outline-none rounded-xl bg-blue-300"
+                    className={`resize-none p-4 w-full focus:outline-none rounded-xl ${paleta.third} ${paleta.text}`}
                     minRows={2}
                     placeholder={`Co masz na myśli ${user.firstName}?`}
                     onChange={(e) => setPost(e.target.value)} 

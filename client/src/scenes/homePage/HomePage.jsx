@@ -9,7 +9,7 @@ import CreatePost from 'components/CreatePost';
 
 function HomePage() {
   const user = useSelector((state) => state.user);
-  const { mode, setMode } = useContext(ThemeContext);
+  const { paleta } = useContext(ThemeContext);
   const [render, setRender] = useState(true);
 
   if (!user) {
@@ -17,8 +17,8 @@ function HomePage() {
   }
 
   return (
-    <div className="text-slate-800 size-xl mx-96">
-      <div className="flex mx-20 mt-10">
+    <div className={`${paleta.background} size-xl px-80`}>
+      <div className="flex px-20 pt-10 ">
         <div className="w-1/4">
           <ProfilePanel />
         </div>

@@ -12,7 +12,7 @@ function FeedPosts({info}) {
     const token = useSelector((state) => state.token);
     const user = useSelector((state) => state.user);
     const location = useLocation();
-    const { mode, setMode } = useContext(ThemeContext);
+    const { mode, setMode, paleta } = useContext(ThemeContext);
     
 
     async function getPosts() {
@@ -22,6 +22,8 @@ function FeedPosts({info}) {
         });
         const data = await fetchPosts.json();
         dispatch(setPosts({ posts: data }));
+        console.log("posts", data)
+
     }
 
     async function getUserPosts() {
@@ -34,7 +36,6 @@ function FeedPosts({info}) {
             );
             const data = await response.json();
             dispatch(setPosts({ posts: data }));
-            console.log(posts)
         };
     
 

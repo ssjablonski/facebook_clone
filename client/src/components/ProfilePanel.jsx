@@ -14,7 +14,7 @@ function ProfilePanel() {
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const dispatch = useDispatch();
-    const {mode, setMode} = useContext(ThemeContext);
+    const {paleta} = useContext(ThemeContext);
 
     async function deleteAccount(id) {
             const deleteUserRes = await fetch(`http://localhost:3001/user/${id}/delete`, {
@@ -30,7 +30,7 @@ function ProfilePanel() {
         }
     
     return (
-        <div className="flex flex-col border border-black bg-white text-black rounded-xl mr-2 p-4">
+        <div className={`flex flex-col border border-black ${paleta.primary} ${paleta.text} text-black rounded-xl mr-2 p-4`}>
             <div className="flex justify-between">
                 <Avatar alt={user.firstName} src="../public/assets/twitter.png" />
                     <div>
