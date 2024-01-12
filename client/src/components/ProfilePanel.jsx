@@ -1,11 +1,10 @@
-import React,{useContext, useEffect, useState} from 'react'
+import React,{useContext, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Avatar from '@mui/material/Avatar';
 import { ThemeContext } from 'context/ThemeContext';
 import EditIcon from '@mui/icons-material/Edit';
 import UpdateForm from './UpdateForm';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Navigate, useNavigate } from 'react-router-dom';
 import { setLogout } from 'reducer';
 
 function ProfilePanel() {
@@ -23,7 +22,6 @@ function ProfilePanel() {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
             }})
-            const deleteUserJson = await deleteUserRes.json();
             if (deleteUserRes.status === 200) {
                 dispatch(setLogout());
             }

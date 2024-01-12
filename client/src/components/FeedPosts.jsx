@@ -1,5 +1,4 @@
-import { ThemeContext } from 'context/ThemeContext';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from 'reducer';
 import Post from './Post';
@@ -12,7 +11,6 @@ function FeedPosts({info}) {
     const token = useSelector((state) => state.token);
     const user = useSelector((state) => state.user);
     const location = useLocation();
-    const { mode, setMode, paleta } = useContext(ThemeContext);
     
 
     async function getPosts() {

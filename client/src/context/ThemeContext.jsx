@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from 'react';
 const ThemeContext = createContext();
 
 function ThemeProvider({ children }) {
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState('dark');
   const [paleta, setPaleta] = useState({});
 
   const storage = {

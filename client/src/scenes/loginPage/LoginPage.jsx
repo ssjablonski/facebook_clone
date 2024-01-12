@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import Form from 'components/Form'
-import NavBar from 'scenes/navbar/NavBar'
 import { ThemeContext } from 'context/ThemeContext';
 
 function LoginPage() {

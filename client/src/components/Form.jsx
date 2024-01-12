@@ -4,7 +4,6 @@ import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setLogin } from 'reducer'
-import Dropzone from 'react-dropzone'
 import TextField from '@mui/material/TextField';
 import { ThemeContext } from 'context/ThemeContext'
 
@@ -54,7 +53,7 @@ function Form() {
     const [pageType, setPageType] = React.useState('login')
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { mode, setMode, paleta } = useContext(ThemeContext);
+    const { paleta } = useContext(ThemeContext);
 
     async function login(values, onSubmitProps) {
         const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
@@ -87,7 +86,6 @@ function Form() {
             method: "POST",
             body: formData,
         });
-        const register = await registerResponse.json();
         onSubmitProps.resetForm();
 
         if (registerResponse.status === 201) {

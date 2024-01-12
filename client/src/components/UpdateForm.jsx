@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext  } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
-import Dropzone from 'react-dropzone'
 import TextField from '@mui/material/TextField';
 import { updateUser } from 'reducer'
+import { ThemeContext } from 'context/ThemeContext'
 
 
 Yup.object().shape({
@@ -27,6 +27,7 @@ function UpdateForm({info}) {
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const dispatch = useDispatch();
+    const {paleta} = useContext(ThemeContext);
 
 
     const formik = useFormik({
@@ -145,14 +146,8 @@ function UpdateForm({info}) {
                             
                             margin='dense'
                         />
-
-{/*                         
-                        <input className='p-3 rounded-3xl bg-slate-800 mb-3' type="text" id="occupation" name="occupation" value={formik.values.occupation} onChange={formik.handleChange} onBlur={formik.handleBlur}
-                        
-                        margin='dense' placeholder="Occupation" />
-                        {formik.touched.occupation && formik.errors.occupation ? <div className='text-red-600'>{formik.errors.occupation}</div> : null} */}
             
-                <button type="submit" id='submit' className='rounded-3xl bg-black text-white p-3 mb-2'>Submit</button>
+                <button type="submit" id='submit' className={`rounded-3xl ${paleta.color} text-black p-3 mb-2 mt-4`}>Submit</button>
             </form>
         </div>
     )

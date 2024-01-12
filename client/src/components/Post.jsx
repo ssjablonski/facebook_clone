@@ -31,7 +31,7 @@ function Post({info, how}) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token)
-    const { mode, setMode, paleta } = useContext(ThemeContext);
+    const { paleta } = useContext(ThemeContext);
 
     async function handleDelete() {
         const deletePostFetch = await fetch(`http://localhost:3001/posts/${_id}/delete`, {
@@ -41,7 +41,6 @@ function Post({info, how}) {
                 'Content-Type': 'application/json',
             },
         });
-        const deletePostRes = await deletePostFetch.json();
 
         if (deletePostFetch.status === 200) {
             dispatch(deletePost(_id))
@@ -71,14 +70,14 @@ function Post({info, how}) {
                     {user._id === userId ?
                         <div className=''>
                             <button className="p-3" onClick={() => handleDelete()}>
-                                <DeleteIcon />
+                                <DeleteIcon fontSize='large' />
                             </button>
                             <button className='p-3' onClick={() => handleEdit()}>
-                                <EditIcon />
+                                <EditIcon  fontSize='large'/>
                             </button>
                         </div> :
                         <button onClick={() => handleAddFriend()}>
-                            <PersonAdd />
+                            <PersonAdd fontSize='large' />
                         </button>
                     }
                 

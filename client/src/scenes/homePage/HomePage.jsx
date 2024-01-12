@@ -2,7 +2,6 @@ import ProfilePanel from 'components/ProfilePanel';
 import React, {useContext, useState} from 'react'
 import { useSelector } from 'react-redux'
 import { ThemeContext } from 'context/ThemeContext';
-import NavBar from 'scenes/navbar/NavBar';
 import FeedPosts from 'components/FeedPosts';
 import { Navigate } from 'react-router-dom';
 import CreatePost from 'components/CreatePost';
