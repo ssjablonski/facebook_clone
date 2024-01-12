@@ -7,14 +7,15 @@ export const createPost = async (req, res) => {
             userId,
             description,
             picturePath,
-            privacy
+            privacy,
+            location
         } = req.body;
         const user = await User.findById(userId);
         const newPost = new Post({
             userId,
             firstName: user.firstName,
             lastName: user.lastName,
-            location: user.location,
+            location,
             description,
             userPicturePath: user.picturePath,
             picturePath,
@@ -25,7 +26,6 @@ export const createPost = async (req, res) => {
         await newPost.save();
 
         const post = await Post.find()
-
         res.status(201).json(post);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -35,9 +35,9 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     try {
         const { id } = req.params;
-        const { description, picturePath } = req.body;
+        const { description, picturePath, privacy, location } = req.body;
         const updated = await Post.findByIdAndUpdate(
-            id, { description, picturePath }, { new: true }
+            id, { description, picturePath, privacy, location }, { new: true }
         );
         res.status(200).json(updated);
     } catch (error) {

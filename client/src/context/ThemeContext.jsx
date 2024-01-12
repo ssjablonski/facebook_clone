@@ -5,6 +5,7 @@ const ThemeContext = createContext();
 function ThemeProvider({ children }) {
   const [mode, setMode] = useState('dark');
   const [paleta, setPaleta] = useState({});
+  const [render, setRender] = useState(false);
 
   const storage = {
     light: {
@@ -12,6 +13,7 @@ function ThemeProvider({ children }) {
       primary: 'bg-light-primary',
       secondary: 'bg-light-secondary',
       color: 'bg-light-color',
+      colorText : 'text-light-color',
       text: 'text-light-text'
     },
     dark: {
@@ -20,6 +22,7 @@ function ThemeProvider({ children }) {
       third: 'bg-dark-third',
       secondary: 'bg-dark-secondary',
       color: 'bg-dark-color',
+      colorText : 'text-dark-color',
       text: 'text-dark-text'
     }
   }
@@ -37,7 +40,7 @@ function ThemeProvider({ children }) {
 
 
   return (
-    <ThemeContext.Provider value={{ mode, setMode, paleta }}>
+    <ThemeContext.Provider value={{ mode, setMode, paleta, render, setRender }}>
       {children}
     </ThemeContext.Provider>
   );
