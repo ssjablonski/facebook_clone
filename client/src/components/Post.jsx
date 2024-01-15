@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { deletePost } from 'reducer';
+import { deletePost, setFriends } from 'reducer';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import PublicIcon from '@mui/icons-material/Public';
 import { PersonAdd } from '@mui/icons-material';
@@ -13,7 +13,7 @@ import PostForm from './PostForm';
 
 
 
-function Post({info, how}) {
+function Post({info}) {
     const {
         _id,
         userId,
@@ -34,6 +34,7 @@ function Post({info, how}) {
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token)
     const { paleta } = useContext(ThemeContext);
+
     async function handleDelete() {
         const deletePostFetch = await fetch(`http://localhost:3001/posts/${_id}/delete`, {
             method: 'DELETE',
@@ -49,14 +50,19 @@ function Post({info, how}) {
         }
     }
 
-    function handleAddFriend() {
-        console.log("add friend")
+    async function handleAddFriend() {
+        const addFriendFetch = await fetch(`http://localhost:3001/user/${user._id}/${userId}/add`, {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        const addFriendRes = await addFriendFetch.json();
+        dispatch(setFriends({ friends: addFriendRes }))
+        setRender(true)
     }
 
-    function handleEdit() {
-        console.log("edit")
-    }
-    
     return (
         <div className={`${paleta.primary} ${paleta.text} shadow-md rounded-md p-4 mb-2`}>
             {isEditing ? <PostForm 
@@ -86,11 +92,12 @@ function Post({info, how}) {
                                 <button className='p-3' onClick={() => setIsEditing((prev) => !prev)}>
                                     <EditIcon  fontSize='large'/>
                                 </button>
-                            </div> :
-                            <button onClick={() => handleAddFriend()}>
-                                <PersonAdd fontSize='large' />
-                            </button>
-                        }
+                            </div> : 
+                            !user.friends.some(friend => friend._id === userId) &&
+                                <button onClick={() => handleAddFriend()}>
+                                    <PersonAdd fontSize='large' />
+                                </button>}
+                        
                     
                 </div>
                 <div className="post-content mt-4">

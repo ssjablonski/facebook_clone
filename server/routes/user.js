@@ -14,6 +14,6 @@ router.delete('/:id/delete', verifyToken, deleteUser);
 
 router.patch('/:id/:friendId/add', verifyToken, addFriend);
 
-router.patch(':id/:friendId/remove', verifyToken, removeFriend)
+router.patch('/:id/:friendId/remove', verifyToken, removeFriend)
 
 export default router;

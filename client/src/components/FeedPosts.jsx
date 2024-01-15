@@ -21,7 +21,6 @@ function FeedPosts({info}) {
         });
         const data = await fetchPosts.json();
         dispatch(setPosts({ posts: data }));
-        console.log("posts", data)
 
     }
 
@@ -33,9 +32,9 @@ function FeedPosts({info}) {
                 headers: { Authorization: `Bearer ${token}` },
             }
             );
-            const data = await response.json();
+            const data = await response.json()
             dispatch(setPosts({ posts: data }));
-        };
+    };
     
 
     useEffect(() => {

@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 function ThemeProvider({ children }) {
   const [mode, setMode] = useState('dark');
   const [paleta, setPaleta] = useState({});
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState(true);
 
   const storage = {
     light: {
