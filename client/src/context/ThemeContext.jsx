@@ -12,6 +12,7 @@ function ThemeProvider({ children }) {
       background: 'bg-light-back',
       primary: 'bg-light-primary',
       secondary: 'bg-light-secondary',
+      third: 'bg-light-third',
       color: 'bg-light-color',
       colorText : 'text-light-color',
       text: 'text-light-text'

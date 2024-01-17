@@ -59,12 +59,13 @@ export const getFeedPost = async (req, res) => {
     try {
         const { userId } = req.params;
         const user = await User.findById(userId);
-        const friends = user.friends;
+        const friends = user.friends.map(friend => friend.toString());
 
         const posts = await Post.find({
             $or: [
                 { privacy: 'public' },
-                { userId: { $in: friends }, privacy: 'private' }
+                { userId: { $in: friends }, privacy: 'private' },
+                { userId: userId, privacy: 'private'}
             ]
         });
 
@@ -77,7 +78,7 @@ export const getFeedPost = async (req, res) => {
 export const getUserPost = async (req, res) => {
     try {
         const { id } = req.params;
-        const posts = await Post.find({ id });
+        const posts = await Post.find({ userId: id });
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ error: error.message });
@@ -89,7 +90,7 @@ export const likeUnlikePost = async (req, res) => {
         const { id } = req.params;
         const { userId } = req.body;
         const post = await Post.findById(id);
-        if (!post.likes.includes(userId)) {
+        if (!post.likes.has(userId)) {
             post.likes.set(userId, true);
         } else {
             post.likes.delete(userId);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,11 +15,11 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 
 function CreatePost({info}) {
-    const { render, setRender, paleta} = useContext(ThemeContext)
+    const { setRender, paleta} = useContext(ThemeContext)
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
-    
+    const [img, setImg] = useState(false)
 
     const formik = useFormik({
         initialValues: {
@@ -69,7 +69,7 @@ function CreatePost({info}) {
                 <div className='flex flex-col'>
                     <div className={`flex pb-6 ${paleta.colorText}`}>
                         <LocationOnIcon fontSize='large' style={{ margin: 7}} />
-                        <input type="text" name='location' id='location' placeholder='Location' value={formik.values.location} onChange={formik.handleChange} className={`${paleta.third} ${paleta.text} rounded-xl w-full ml-2 mr-4 p-4`} />
+                        <input type="text" name='location' id='location' placeholder='Location' value={formik.values.location} onChange={formik.handleChange} className={`${paleta.third} ${paleta.text} rounded-xl w-full ml-2 mr-4 p-4 focus:outline-none`} />
 
                     </div>
                     <div className='mr-4 flex justify-center items-center'>
@@ -84,8 +84,10 @@ function CreatePost({info}) {
                         className={`resize-none p-4 w-full focus:outline-none rounded-xl ${paleta.third} ${paleta.text}`}
                         minRows={2}
                         placeholder={`Co masz na myśli ${user.firstName}?`}
-                    />
+                        />
                     </div>
+                    {img ? <input type="text" name='picture' id='picture' placeholder='Image URL' value={formik.values.picture} onChange={formik.handleChange} className={`${paleta.third} ${paleta.text} rounded-xl ml-14 mr-4 my-4 p-4 focus:outline-none`} /> : null}
+
                 </div>
                 <div className={`flex w-full justify-between p-8 ${paleta.colorText} px-40`}>
                     <RadioGroup
@@ -99,7 +101,7 @@ function CreatePost({info}) {
                     <FormControlLabel value="private" control={<Radio style={{ color: '#14FFEC' }}/>} label="Private" />
                     <FormControlLabel value="public" control={<Radio style={{ color: '#14FFEC' }}/>} label="Public" />
                     </RadioGroup>
-                    <button>
+                    <button onClick={() => setImg(!img)}>
                         <ImageIcon fontSize='large' />   
                     </button>
                     <button type="submit" id='submit'>

@@ -15,6 +15,7 @@ module.exports = {
         "light-back" : "#F5F5F5",
         "light-primary" : "#FFFFFF",
         "light-secondary" : "#0D7377",
+        "light-third" : "#DEDEDE",
         "light-color" : "#14FFEC",
         "light-text" : "#000000",
 

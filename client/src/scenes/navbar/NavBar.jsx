@@ -33,14 +33,6 @@ function NavBar() {
           <div>
             <button className={`rounded-xl ${paleta.color} text-black p-3 m-1`} onClick={
               () => {
-                navigate(`/profile/${user._id}`);
-              }
-            
-            }>
-              <AccountCircleIcon />
-            </button>
-            <button className={`rounded-xl ${paleta.color} text-black p-3 m-1`} onClick={
-              () => {
                 dispatch(setLogout());
                 navigate('/');
               }

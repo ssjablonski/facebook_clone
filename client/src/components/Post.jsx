@@ -3,13 +3,15 @@ import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { deletePost, setFriends } from 'reducer';
+import { deletePost, setFriends, setPost } from 'reducer';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import PublicIcon from '@mui/icons-material/Public';
 import { PersonAdd } from '@mui/icons-material';
 import { ThemeContext } from 'context/ThemeContext';
 import PostForm from './PostForm';
-
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import AddCommentIcon from '@mui/icons-material/AddComment';
 
 
 
@@ -27,7 +29,7 @@ function Post({info}) {
         comments,
         privacy,
     } = info;
-    const { render, setRender} = useContext(ThemeContext)
+    const { setRender} = useContext(ThemeContext)
     const [isEditing, setIsEditing] = useState(false)
     const likeCount = Object.keys(likes).length;
     const dispatch = useDispatch();
@@ -49,6 +51,25 @@ function Post({info}) {
             setRender(true)
         }
     }
+    
+    async function handleLike() {
+        const likeFetch = await fetch(`http://localhost:3001/posts/${_id}/like`, {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user._id,
+            }),
+        });
+        const likeRes = await likeFetch.json();
+        console.log("fetch", likeFetch)
+        console.log("res",likeRes)
+        dispatch(setPost(likeRes))
+        setRender(true)
+    }
+
 
     async function handleAddFriend() {
         const addFriendFetch = await fetch(`http://localhost:3001/user/${user._id}/${userId}/add`, {
@@ -102,10 +123,20 @@ function Post({info}) {
                 </div>
                 <div className="post-content mt-4">
                     <p>{description}</p>
-                    <img className="post-picture mt-4" src={picturePath} alt="Post" />
+                    {picturePath !== "" ? <img className="post-picture mt-4" src={picturePath} alt="Post" /> :null}
                 </div>
                 <div className="post-footer justify-between mt-4">
-                    <div className="text-gray-500">Likes: {likeCount}</div>
+                    <button className={`${paleta.colorText}`} onClick={() => handleLike()}>
+                        {likes[user._id] ? 
+                            <div className='flex flex-row items-center'>
+                                <ThumbUpAltIcon fontSize='large' />
+                                <p className='pl-2'>{likeCount}</p>
+                            </div> : 
+                            <div className='flex flex-row items-center'>
+                                <ThumbUpOffAltIcon fontSize='large' />
+                                <p className='pl-2'>{likeCount}</p>
+                            </div>}
+                    </button>
                     <div className="comments items-center">
                         <div className="text-gray-500">Comments:</div>
                         <div className='flex flex-col'>
