@@ -16,8 +16,8 @@ const PostSchema = new mongoose.Schema(
         },
         location: String,
         description: String,
-        userPicturePath: String,
-        picturePath: String,
+        userPicture: String,
+        picture: String,
         privacy: {
             type: String,
             enum: ['public', 'private'],

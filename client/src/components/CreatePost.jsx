@@ -50,13 +50,12 @@ function CreatePost({info}) {
             body: JSON.stringify({
                 userId: user._id,
                 description: values.post,
-                picturePath: values.picture,
+                picture: values.picture,
                 privacy: values.privacy,
                 location: values.location || user.location
             }),
         });
         const createPostRes = await createPost.json();
-        console.log("create", createPostRes)
         dispatch(setPosts(createPostRes))
         setRender(true)
         onSubmitProps.resetForm();
@@ -74,7 +73,7 @@ function CreatePost({info}) {
                     </div>
                     <div className='mr-4 flex justify-center items-center'>
                         <div className="mr-4">
-                            <Avatar src={user.picturePath}/>
+                            <Avatar src={user.picture} alt={user.firstName} style={{ width: '45px', height: '45px' }}/>
                         </div>
                         <TextareaAutosize
                         id='post'
@@ -101,7 +100,7 @@ function CreatePost({info}) {
                     <FormControlLabel value="private" control={<Radio style={{ color: '#14FFEC' }}/>} label="Private" />
                     <FormControlLabel value="public" control={<Radio style={{ color: '#14FFEC' }}/>} label="Public" />
                     </RadioGroup>
-                    <button onClick={() => setImg(!img)}>
+                    <button type='button' onClick={() => setImg(!img)}>
                         <ImageIcon fontSize='large' />   
                     </button>
                     <button type="submit" id='submit'>

@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from '../middleware/auth.js';
-import { createPost, deletePost, getFeedPost, getUserPost, likeUnlikePost, updatePost, addRemoveComment } from "../controllers/posts.js";
+import { createPost, deletePost, getFeedPost, getUserPost, likeUnlikePost, updatePost, addRemoveComment, getPostsCountByUser } from "../controllers/posts.js";
 
 const router = express.Router();
 
@@ -18,4 +18,5 @@ router.patch('/:id/like', verifyToken, likeUnlikePost);
 
 router.patch('/:id/comment', verifyToken, addRemoveComment)
 
+router.get('/:userId/postsCountByUser', verifyToken, getPostsCountByUser);
 export default router;

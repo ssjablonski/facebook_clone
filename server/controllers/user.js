@@ -13,14 +13,14 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { firstName, lastName, occupation, location, picturePath } = req.body;
+        const { firstName, lastName, occupation, location, picture } = req.body;
 
         const update = {};
         if (firstName) update.firstName = firstName;
         if (lastName) update.lastName = lastName;
         if (occupation) update.occupation = occupation;
         if (location) update.location = location;
-        if (picturePath) update.picturePath = picturePath;
+        if (picture) update.picture = picture;
 
         const user = await User.findByIdAndUpdate(id, update, { new: true });
 
@@ -48,8 +48,8 @@ export const getUserFriends = async (req, res) => {
         const friends = await Promise.all(
             user.friends.map((id) => User.findById(id))
         );
-        const formated = friends.map(({ _id, firstName, lastName, occupation, location, picturePath}) => {
-            return { _id, firstName, lastName, occupation, location, picturePath};
+        const formated = friends.map(({ _id, firstName, lastName, occupation, location, picture}) => {
+            return { _id, firstName, lastName, occupation, location, picture};
         });
         res.status(200).json(formated); 
     } catch (error) {
@@ -74,8 +74,8 @@ export const addFriend = async (req, res) => {
             user.friends.map((id) => User.findById(id))
         );
 
-        const formated = friends.map(({ _id, firstName, lastName, occupation, location, picturePath}) => {
-            return { _id, firstName, lastName, occupation, location, picturePath};
+        const formated = friends.map(({ _id, firstName, lastName, occupation, location, picture}) => {
+            return { _id, firstName, lastName, occupation, location, picture};
         });
         
         res.status(200).json(formated);
@@ -101,8 +101,8 @@ export const removeFriend = async (req, res) => {
             user.friends.map((id) => User.findById(id))
         );
 
-        const formated = friends.map(({ _id, firstName, lastName, occupation, location, picturePath}) => {
-            return { _id, firstName, lastName, occupation, location, picturePath};
+        const formated = friends.map(({ _id, firstName, lastName, occupation, location, picture}) => {
+            return { _id, firstName, lastName, occupation, location, picture};
         });
 
         res.status(200).json(formated);

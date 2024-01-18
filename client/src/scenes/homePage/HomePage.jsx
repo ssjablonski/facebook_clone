@@ -17,15 +17,15 @@ function HomePage() {
 
   return (
     <div className={`${paleta.background} size-xl px-48`}>
-      <div className="flex px-20 pt-10 ">
-        <div className="w-1/6">
+      <div className="flex px-20 pt-10 justify-center">
+        <div className="w-1/3">
           <ProfilePanel />
         </div>
-        <div className="w-3/6">
+        <div className="w-1/2">
           <CreatePost />
           <FeedPosts />
         </div>
-        <div className="w-2/6">
+        <div className="w-1/3">
           <FriendsList />
         </div>
       </div>

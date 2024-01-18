@@ -24,8 +24,8 @@ function Post({info}) {
         lastName,
         description,
         location,
-        picturePath,
-        userPicturePath,
+        picture,
+        userPicture,
         likes,
         comments,
         privacy,
@@ -66,22 +66,8 @@ function Post({info}) {
             }),
         });
         const likeRes = await likeFetch.json();
-        // console.log("fetch", likeFetch)
-        // console.log("res",likeRes)
         dispatch(setPost(likeRes))
         setRender(true)
-    }
-
-    async function findUser(id) {
-        const userFetch = await fetch(`http://localhost:3001/user/${id}`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        });
-        const userRes = await userFetch.json();
-        return userRes
     }
 
 
@@ -107,14 +93,16 @@ function Post({info}) {
             },
             body: JSON.stringify({
                 userId: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 comment: comment,
+                userPicture: user.picture,
             }),
         });
         const commentRes = await commentFetch.json();
-        console.log("fetch", commentFetch)
-        console.log("res",commentRes)
         dispatch(setPost(commentRes))
         setRender(true)
+        setComment('')
     }
 
 
@@ -129,14 +117,14 @@ function Post({info}) {
                 handleDelete={handleDelete} 
                 _id={_id}
                 description={description} 
-                picturePath={picturePath} 
+                picture={picture} 
                 privacy={privacy} 
                 location={location}
                 /> :
             <div>
                 <div className=" flex items-center justify-between">
                     <div className='flex items-center'>
-                        <Avatar alt={firstName} src={userPicturePath} />
+                        <Avatar alt={firstName} src={userPicture} style={{ width: '45px', height: '45px' }} />
                         <div className='pl-4'>  
                             <h3 className="text-lg font-medium">{firstName} {lastName}</h3>
                             <p className="text-gray-500">Location: {location}</p>
@@ -155,13 +143,14 @@ function Post({info}) {
                             !user.friends.some(friend => friend._id === userId) &&
                                 <button onClick={() => handleAddFriend()}>
                                     <PersonAdd fontSize='large' />
-                                </button>}
+                                </button>
+                        }
                         
                     
                 </div>
                 <div className="post-content mt-4">
                     <p>{description}</p>
-                    {picturePath !== "" ? <img className="post-picture mt-4" src={picturePath} alt="Post" /> :null}
+                    {picture !== "" ? <img className="post-picture mt-4" src={picture} alt="Post" /> :null}
                 </div>
                 <div className="post-footer justify-between mt-4">
                     <button className={`${paleta.colorText}`} onClick={() => handleLike()}>
@@ -179,16 +168,16 @@ function Post({info}) {
                         <div className="text-gray-500">Comments:</div>
                         <div className='flex flex-col'>
                             {comments.map((comment) => {
-                                const user = findUser(comment.userId)
                                 return (
                                     <div className="comment flex items-center pb-2">
-                                        <Avatar alt={user.firstName} src={user.picturePath} style={{ width: '35px', height: '35px' }} />
+                                        <Avatar alt={comment.firstName} src={comment.userPicture} style={{ width: '35px', height: '35px' }} />
+                                        <p className='pl-2'>{comment.firstName}</p>
                                         <p className='pl-2'>{comment.comment}</p>
                                     </div>
                                 )
                             })}
                             <div className="flex">
-                                <input type="text" value={comment} onChange={(e) => handleChange(e)} className={`${paleta.third} ${paleta.text} rounded-xl w-full ml-2 mr-4 p-4 focus:outline-none`} />
+                                <input type="text" placeholder='Comment:' value={comment} onChange={(e) => handleChange(e)} className={`${paleta.third} ${paleta.text} rounded-xl w-full mr-4 p-4 focus:outline-none`} />
                                 <button onClick={() => handleComment()} className={`${paleta.colorText}`}>
                                     <SendIcon />
                                 </button>

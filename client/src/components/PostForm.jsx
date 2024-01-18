@@ -13,7 +13,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-function PostForm({ setIsEditing, handleDelete, _id, description, picturePath, privacy, location}) {
+function PostForm({ setIsEditing, handleDelete, _id, description, picture, privacy, location}) {
     const { paleta } = useContext(ThemeContext);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
@@ -23,7 +23,7 @@ function PostForm({ setIsEditing, handleDelete, _id, description, picturePath, p
     const formik = useFormik({
         initialValues: {
             post: description,
-            picture: picturePath,
+            picture: picture,
             privacy: privacy,
             location: location,
         },
@@ -40,8 +40,6 @@ function PostForm({ setIsEditing, handleDelete, _id, description, picturePath, p
     })
 
     async function handleEdit(values, onSubmitProps) {
-        console.log("val", values)
-        console.log(_id)
         const editPost = await fetch(`http://localhost:3001/posts/${_id}/update`, {
             method: 'PATCH',
             headers: {
@@ -50,7 +48,7 @@ function PostForm({ setIsEditing, handleDelete, _id, description, picturePath, p
             },
             body: JSON.stringify({
                 description: values.post,
-                picturePath: values.picture,
+                picture: values.picture,
                 privacy: values.privacy,
                 location: values.location
             }),

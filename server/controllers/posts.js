@@ -6,7 +6,7 @@ export const createPost = async (req, res) => {
         const {
             userId,
             description,
-            picturePath,
+            picture,
             privacy,
             location
         } = req.body;
@@ -17,8 +17,8 @@ export const createPost = async (req, res) => {
             lastName: user.lastName,
             location,
             description,
-            userPicturePath: user.picturePath,
-            picturePath,
+            userPicture: user.picture,
+            picture,
             privacy,
             likes: {},
             comments: []
@@ -35,9 +35,9 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     try {
         const { id } = req.params;
-        const { description, picturePath, privacy, location } = req.body;
+        const { description, picture, privacy, location } = req.body;
         const updated = await Post.findByIdAndUpdate(
-            id, { description, picturePath, privacy, location }, { new: true }
+            id, { description, picture, privacy, location }, { new: true }
         );
         res.status(200).json(updated);
     } catch (error) {
@@ -61,19 +61,23 @@ export const getFeedPost = async (req, res) => {
         const user = await User.findById(userId);
         const friends = user.friends.map(friend => friend.toString());
 
-        const posts = await Post.find({
-            $or: [
-                { privacy: 'public' },
-                { userId: { $in: friends }, privacy: 'private' },
-                { userId: userId, privacy: 'private'}
-            ]
-        });
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                    $or: [
+                        { privacy: 'public' },
+                        { userId: { $in: friends }, privacy: 'private' },
+                        { userId: userId, privacy: 'private'}
+                    ]
+                }
+            }
+        ]);
 
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ error: error.message });
     }
-}
+};
 
 export const getUserPost = async (req, res) => {
     try {
@@ -107,10 +111,10 @@ export const likeUnlikePost = async (req, res) => {
 export const addRemoveComment = async (req, res) => {
     try {
         const { id } = req.params;
-        const { userId, comment } = req.body;
+        const { userId, comment, firstName, lastName, userPicture } = req.body;
         const post = await Post.findById(id);
         if (!post.comments.includes(comment)) {
-            post.comments.push({ userId, comment});
+            post.comments.push({ userId, comment, firstName, lastName, userPicture});
         } else {
             post.comments = post.comments.filter(c => c.userId !== comment.userId && c.comment);
         }
@@ -122,3 +126,21 @@ export const addRemoveComment = async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 }
+
+export const getPostsCountByUser = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const postsCount = await Post.aggregate([
+            {
+                $group: {
+                    _id: userId,
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+        res.status(200).json(postsCount);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+

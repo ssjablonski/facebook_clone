@@ -9,7 +9,7 @@ export const register = async (req, res) => {
             lastName,
             email,
             password,
-            picturePath,
+            picture,
             friends,
             location,
             occupation
@@ -23,7 +23,7 @@ export const register = async (req, res) => {
             lastName,
             email,
             password: hashedPassword,
-            picturePath,
+            picture,
             friends,
             location,
             occupation,

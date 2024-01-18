@@ -18,8 +18,8 @@ function NavBar() {
 
 
   return (
-    <div className={`flex justify-between items-center  text-black text-xl font-bold ${paleta.primary} ${paleta.text}`}>
-      <button className='p-4' onClick={() => navigate('/home')}>Stronka</button>
+    <div className={`flex justify-between items-center text-xl font-bold ${paleta.primary} ${paleta.text} `}>
+      <button className='p-6' onClick={() => navigate('/home')}>Stronka</button>
       <div className='flex'>
         <button className={`rounded-xl ${paleta.color} text-black p-3 m-1`} onClick={
           () => {

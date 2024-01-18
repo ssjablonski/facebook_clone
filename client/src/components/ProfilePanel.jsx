@@ -28,9 +28,9 @@ function ProfilePanel() {
         }
     
     return (
-        <div className={`flex flex-col border border-black ${paleta.primary} ${paleta.text} text-black rounded-xl mr-2 p-4`}>
+        <div className={`flex flex-col ${paleta.primary} ${paleta.text} text-black rounded-xl mr-2 p-4`}>
             <div className={`flex justify-between ${paleta.colorText}`}>
-                <Avatar alt={user.firstName} src="../public/assets/twitter.png" />
+                <Avatar alt={user.firstName} src={user.picture} style={{ width: '45px', height: '45px' }}/>
                     <div>
                         <button className='mr-2' onClick={
                             () => setEdit(!edit)

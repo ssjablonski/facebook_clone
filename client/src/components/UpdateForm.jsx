@@ -11,7 +11,7 @@ function UpdateForm({info}) {
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const dispatch = useDispatch();
-    const {paleta} = useContext(ThemeContext);
+    const {paleta, setRender} = useContext(ThemeContext);
 
 
     const formik = useFormik({
@@ -20,7 +20,7 @@ function UpdateForm({info}) {
             lastName: '',
             location: '',
             occupation: '',
-            picturePath: '',
+            picture: '',
         },
         validationSchema: Yup.object().shape({
             firstName: Yup.string()
@@ -31,7 +31,7 @@ function UpdateForm({info}) {
                 .max(50, 'Too Long!'),
             location: Yup.string(),
             occupation: Yup.string(),
-            picturePath: Yup.string(),
+            picture: Yup.string(),
             }),
         onSubmit: handleSubmit,
         
@@ -50,6 +50,7 @@ function UpdateForm({info}) {
         dispatch(
             updateUser(updateUserJson)
         );
+        setRender(true)
         onSubmitProps.resetForm()
     };    
 
@@ -114,14 +115,14 @@ function UpdateForm({info}) {
                             margin='dense'
                         />
                         <TextField
-                            error={formik.errors.picturePath ? true : false}
-                            helperText={formik.errors.picturePath ? formik.errors.picturePath : null}
+                            error={formik.errors.picture ? true : false}
+                            helperText={formik.errors.picture ? formik.errors.picture : null}
                             variant="standard"
-                            label="Picture Path"
+                            label="Picture"
                             type="text"
-                            id="picturePath"
-                            name="picturePath"
-                            value={formik.values.picturePath}
+                            id="picture"
+                            name="picture"
+                            value={formik.values.picture}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             
