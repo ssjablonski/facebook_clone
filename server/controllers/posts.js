@@ -103,3 +103,22 @@ export const likeUnlikePost = async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 }
+
+export const addRemoveComment = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { userId, comment } = req.body;
+        const post = await Post.findById(id);
+        if (!post.comments.includes(comment)) {
+            post.comments.push({ userId, comment});
+        } else {
+            post.comments = post.comments.filter(c => c.userId !== comment.userId && c.comment);
+        }
+        const updated = await Post.findByIdAndUpdate(
+            id, {comments: post.comments}, {new: true}
+        )
+        res.status(200).json(updated);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+}

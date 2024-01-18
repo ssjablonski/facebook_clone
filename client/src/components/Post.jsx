@@ -12,6 +12,7 @@ import PostForm from './PostForm';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import AddCommentIcon from '@mui/icons-material/AddComment';
+import SendIcon from '@mui/icons-material/Send';
 
 
 
@@ -36,6 +37,7 @@ function Post({info}) {
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token)
     const { paleta } = useContext(ThemeContext);
+    const [comment, setComment] = useState('')
 
     async function handleDelete() {
         const deletePostFetch = await fetch(`http://localhost:3001/posts/${_id}/delete`, {
@@ -64,10 +66,22 @@ function Post({info}) {
             }),
         });
         const likeRes = await likeFetch.json();
-        console.log("fetch", likeFetch)
-        console.log("res",likeRes)
+        // console.log("fetch", likeFetch)
+        // console.log("res",likeRes)
         dispatch(setPost(likeRes))
         setRender(true)
+    }
+
+    async function findUser(id) {
+        const userFetch = await fetch(`http://localhost:3001/user/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        const userRes = await userFetch.json();
+        return userRes
     }
 
 
@@ -82,6 +96,30 @@ function Post({info}) {
         const addFriendRes = await addFriendFetch.json();
         dispatch(setFriends({ friends: addFriendRes }))
         setRender(true)
+    }
+
+    async function handleComment() {
+        const commentFetch = await fetch(`http://localhost:3001/posts/${_id}/comment`, {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user._id,
+                comment: comment,
+            }),
+        });
+        const commentRes = await commentFetch.json();
+        console.log("fetch", commentFetch)
+        console.log("res",commentRes)
+        dispatch(setPost(commentRes))
+        setRender(true)
+    }
+
+
+    function handleChange(e) {
+        setComment(e.target.value)
     }
 
     return (
@@ -141,12 +179,20 @@ function Post({info}) {
                         <div className="text-gray-500">Comments:</div>
                         <div className='flex flex-col'>
                             {comments.map((comment) => {
+                                const user = findUser(comment.userId)
                                 return (
-                                    <div className="comment">
-                                        <p>{comment}</p>
+                                    <div className="comment flex items-center pb-2">
+                                        <Avatar alt={user.firstName} src={user.picturePath} style={{ width: '35px', height: '35px' }} />
+                                        <p className='pl-2'>{comment.comment}</p>
                                     </div>
                                 )
                             })}
+                            <div className="flex">
+                                <input type="text" value={comment} onChange={(e) => handleChange(e)} className={`${paleta.third} ${paleta.text} rounded-xl w-full ml-2 mr-4 p-4 focus:outline-none`} />
+                                <button onClick={() => handleComment()} className={`${paleta.colorText}`}>
+                                    <SendIcon />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

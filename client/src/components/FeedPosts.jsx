@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from 'reducer';
 import Post from './Post';
@@ -37,7 +37,7 @@ function FeedPosts({info}) {
     };
     
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (location.pathname === '/home') {
             if (render) {
                 getPosts();
@@ -54,7 +54,7 @@ function FeedPosts({info}) {
 
     return (
         <>
-            {Array.isArray(posts) && posts.map((post) => <Post key={post._id} info={post} how={[render, setRender]} />)}
+            {Array.isArray(posts) && [...posts].reverse().map((post) => <Post key={post._id} info={post} how={[render, setRender]} />)}
         </>
         
     )

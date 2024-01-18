@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from '../middleware/auth.js';
-import { createPost, deletePost, getFeedPost, getUserPost, likeUnlikePost, updatePost } from "../controllers/posts.js";
+import { createPost, deletePost, getFeedPost, getUserPost, likeUnlikePost, updatePost, addRemoveComment } from "../controllers/posts.js";
 
 const router = express.Router();
 
@@ -15,5 +15,7 @@ router.delete('/:id/delete', verifyToken, deletePost);
 router.get('/:id/posts', verifyToken, getUserPost);
 
 router.patch('/:id/like', verifyToken, likeUnlikePost);
+
+router.patch('/:id/comment', verifyToken, addRemoveComment)
 
 export default router;
