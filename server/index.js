@@ -28,16 +28,6 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/assets');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
-
-const upload = multer({ storage });
 
 app.post('/auth/register', upload.single('picture'), register); // ! to dlatego tak bo potrzebujemy upload do zapisania zdjecia
 app.post('/posts', verifyToken, upload.single('picture'), createPost);
