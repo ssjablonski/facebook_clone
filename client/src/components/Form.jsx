@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { setLogin } from 'reducer'
 import TextField from '@mui/material/TextField';
 import { ThemeContext } from 'context/ThemeContext'
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material'
+import Cookies from 'js-cookie'
 
 
 const registerValidation = Yup.object().shape({
@@ -27,7 +29,11 @@ const registerValidation = Yup.object().shape({
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     location: Yup.string().required('Required'),
     occupation: Yup.string().required('Required'),
-    })
+    theme: Yup.string().oneOf(['light', 'dark']).required(),
+
+    
+    
+})
     
 const loginValidation = Yup.object().shape({
     email: Yup.string()
@@ -42,6 +48,9 @@ const registerInitValues = {
     email: '',
     password: '',
     confirmPassword: '',
+    location: '',
+    occupation: '',
+    theme: 'light'
 }
 
 const loginInitValues = {
@@ -77,15 +86,19 @@ function Form() {
     }
 
     async function register(values, onSubmitProps) {
-        const formData = new FormData();
-        for (let value in values) {
-            formData.append(value, values[value]);
-        }
+        console.log('klik')
+        const valuesToSend = {...values}
+        delete valuesToSend.theme
         
+        Cookies.set('theme', values.theme)
+
         const registerResponse = await fetch("http://localhost:3001/auth/register", {
             method: "POST",
-            body: formData,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(valuesToSend),
         });
+        console.log('po fetchu')
+
         onSubmitProps.resetForm();
 
         if (registerResponse.status === 201) {
@@ -111,13 +124,14 @@ function Form() {
         if (pageType === 'login') {
             await login(values, onSubmitProps);
         } else {
+            console.log('klik w handle')
             await register(values, onSubmitProps);
         }
     };    
 
     return(
-        <div className="flex justify-center content-center">
-            <form onSubmit={formik.handleSubmit} className='flex flex-col'>
+        <div className={`flex justify-center content-center ${paleta.background}`}>
+            <form onSubmit={formik.handleSubmit} className='flex flex-col '>
                 {pageType === 'login' ? (
                     <>
                         <TextField
@@ -269,8 +283,19 @@ function Form() {
                             margin="dense"
                             className='pb-2 text-white rounded-xl m-2'
                         />
-                            
-                        
+                        <div className={`flex w-full justify-between p-8 ${paleta.colorText} ${paleta.background} px-40`}>
+                            <RadioGroup
+                                aria-labelledby="demo-controlled-radio-buttons-group"
+                                name="theme"
+                                value={formik.values.theme}
+                                onChange={formik.handleChange}
+                                defaultValue="dark"
+                                className='text-white'
+                            >
+                            <FormControlLabel value="light" id='light' control={<Radio style={{ color: '#14FFEC' }}/>} label="Light" />
+                            <FormControlLabel value="dark" id='dark' control={<Radio style={{ color: '#14FFEC' }}/>} label="Dark" />
+                            </RadioGroup>
+                        </div> 
                     </>
                 )}
                 <button type="submit" id='submit' className={`rounded-3xl ${paleta.color} text-black p-3 mb-2`}>Submit</button>

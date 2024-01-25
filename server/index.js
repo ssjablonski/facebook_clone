@@ -3,10 +3,8 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import multer from 'multer';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
@@ -36,11 +34,10 @@ app.use(morgan('common'));
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
-// app.use(cookieParser());
 
 
-// app.post('/auth/register', upload.single('picture'), register); // ! to dlatego tak bo potrzebujemy upload do zapisania zdjecia
-// app.post('/posts', verifyToken, upload.single('picture'), createPost);
+app.post('/auth/register',  register);
+app.post('/posts', verifyToken,  createPost);
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);

@@ -1,11 +1,13 @@
+import Cookies from 'js-cookie';
 import React, { createContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
 function ThemeProvider({ children }) {
-  const [mode, setMode] = useState('dark');
+  // const [mode, setMode] = useState('dark');
   const [paleta, setPaleta] = useState({});
   const [render, setRender] = useState(true);
+  const theme = Cookies.get('theme');
 
   const storage = {
     light: {
@@ -30,18 +32,18 @@ function ThemeProvider({ children }) {
 
 
   useEffect(() => {
-    if (mode === 'light') {
+    if (theme === 'light') {
       setPaleta(storage.light);
     } else {
       setPaleta(storage.dark);
     }
-}, [mode]) // eslint-disable-line react-hooks/exhaustive-deps
+}, [theme]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
 
   return (
-    <ThemeContext.Provider value={{ mode, setMode, paleta, render, setRender }}>
+    <ThemeContext.Provider value={{ theme, paleta, render, setRender }}>
       {children}
     </ThemeContext.Provider>
   );

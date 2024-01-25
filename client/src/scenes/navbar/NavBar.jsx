@@ -7,14 +7,18 @@ import { ThemeContext } from 'context/ThemeContext';
 import { setLogout } from 'reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Cookie } from '@mui/icons-material';
+import Cookies from 'js-cookie';
 
 
 function NavBar() {
-  const { mode, setMode, paleta } = useContext(ThemeContext);
+  const { paleta, setRender } = useContext(ThemeContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const user = useSelector((state) => state.user);
+  const theme = Cookies.get('theme');
+  
 
 
   return (
@@ -23,11 +27,20 @@ function NavBar() {
       <div className='flex'>
         <button className={`rounded-xl ${paleta.color} text-black p-3 m-1`} onClick={
           () => {
-            setMode((prevMode) => prevMode === 'light' ? 'dark' : 'light');
+            const oldTheme = Cookies.get('theme');
+            console.log(oldTheme)
+            if (oldTheme === 'light') {
+              Cookies.set('theme', 'dark');
+              setRender(true);
+            } else {
+              Cookies.set('theme', 'light');
+              setRender(true);
+            }
           }
+
         
         }>
-          {mode==="light" ? <DarkModeIcon /> : <LightModeIcon />}
+          {theme ==="light" ? <DarkModeIcon /> : <LightModeIcon />}
         </button>
         {location.pathname !== '/' ?
           <div>
