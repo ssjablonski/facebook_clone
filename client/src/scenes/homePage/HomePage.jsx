@@ -1,4 +1,5 @@
 import ProfilePanel from 'components/ProfilePanel';
+import Ads from 'components/Ads';
 import React, {useContext, useState} from 'react'
 import { useSelector } from 'react-redux'
 import { ThemeContext } from 'context/ThemeContext';
@@ -26,6 +27,7 @@ function HomePage() {
           <FeedPosts />
         </div>
         <div className="w-1/3">
+          <Ads />
           <FriendsList />
         </div>
       </div>
