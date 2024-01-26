@@ -16,7 +16,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 
 
-function Post({info}) {
+function Post({info, unique}) {
     const {
         _id,
         userId,
@@ -111,7 +111,7 @@ function Post({info}) {
     }
 
     return (
-        <div className={`${paleta.primary} ${paleta.text} shadow-md rounded-md p-4 mb-2`}>
+        <div key={unique} className={`${paleta.primary} ${paleta.text} shadow-md rounded-md p-4 mb-2`}>
             {isEditing ? <PostForm 
                 setIsEditing={setIsEditing} 
                 handleDelete={handleDelete} 

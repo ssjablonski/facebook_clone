@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -9,7 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Cookie } from '@mui/icons-material';
 import Cookies from 'js-cookie';
-
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Notifications from 'components/Notifications';
 
 function NavBar() {
   const { paleta, setRender } = useContext(ThemeContext);
@@ -18,6 +20,7 @@ function NavBar() {
   const location = useLocation();
   const user = useSelector((state) => state.user);
   const theme = Cookies.get('theme');
+  const [display, setDisplay] = useState(false);
   
 
 
@@ -46,12 +49,21 @@ function NavBar() {
           <div>
             <button className={`rounded-xl ${paleta.color} text-black p-3 m-1`} onClick={
               () => {
+                setDisplay((prev) => !prev);
+              }
+            }>
+              {display ? <NotificationsIcon /> : <NotificationsNoneIcon />}
+            </button>
+            
+            <button className={`rounded-xl ${paleta.color} text-black p-3 m-1`} onClick={
+              () => {
                 dispatch(setLogout());
                 navigate('/');
               }
             }>
               <LogoutIcon />
             </button>
+            {display ? <Notifications /> : null}
           </div>
         : null}
       </div>

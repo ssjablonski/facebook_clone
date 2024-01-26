@@ -1,5 +1,7 @@
 import express from "express";
-const router = express.Router();
+import SseChannel from 'sse-channel'
+
+const router = express.Router()
 
 let ads = [
     {title: 'Nowa ksiązka autorstwa Marka "UG-moja depresja"', description: 'Już teraz dostępna w księgarniach'},
@@ -7,22 +9,25 @@ let ads = [
     {title: 'Nowa linia ciuchów marki BLE', description: 'Sprawdz naszą oferte na www.ble.com'}
 ]
 
+const channel = new SseChannel({ cors: { origins: ["*"] }, jsonEncode: true});
+
 function getNewAd() {
     const adIndex = Math.floor(Math.random() * ads.length);
     return ads[adIndex];
 }
 
+setInterval(() => {
+        const ad = getNewAd();
+        channel.send({data: ad})
+}, 7000);
+
 
 router.get('/stream', (req, res) => {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
+    channel.addClient(req,res);
 
-    setInterval(() => {
-    const ad = getNewAd(); // This function would get the new ad data
-    res.write(`data: ${JSON.stringify(ad)}\n\n`);
-  }, 15000);
-
+    req.on("close", () => {
+        channel.removeClient(req, res)
+    })
 });
 
 export default router;

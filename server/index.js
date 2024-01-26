@@ -23,7 +23,6 @@ import { config } from 'dotenv';
 
 config();
 const { MQTT_ADRESS } = process.env;
-const mqttClient = mqtt.connect(MQTT_ADRESS);
 
 const app = express();
 

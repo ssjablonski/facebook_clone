@@ -13,14 +13,18 @@ function Ads() {
             setAd(message);
         }
 
+        eventSource.onclose = () => {
+            console.log('Server connection closed')
+        }
+
         return () => {
             eventSource.close();
         }
     }, []);
 
     return (
-        <div className={`${paleta.primary} ${paleta.text} rounded-xl p-4 ml-2 mb-2 `}>
-            <p>{ad.title}</p>
+        <div className={`${paleta.primary} ${paleta.text} rounded-xl p-4 ml-2 m-2 `}>
+            <h2 className='font-medium'>{ad.title}</h2>
             <p>{ad.description}</p>
         </div>
     )

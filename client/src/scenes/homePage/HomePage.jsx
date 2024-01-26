@@ -7,6 +7,7 @@ import FeedPosts from 'components/FeedPosts';
 import { Navigate } from 'react-router-dom';
 import CreatePost from 'components/CreatePost';
 import FriendsList from 'components/FriendsList';
+import Notifications from 'components/Notifications';
 
 function HomePage() {
   const user = useSelector((state) => state.user);
@@ -21,13 +22,13 @@ function HomePage() {
       <div className="flex px-20 pt-10 justify-center">
         <div className="w-1/3">
           <ProfilePanel />
+          <Ads />
         </div>
         <div className="w-1/2">
           <CreatePost />
           <FeedPosts />
         </div>
         <div className="w-1/3">
-          <Ads />
           <FriendsList />
         </div>
       </div>

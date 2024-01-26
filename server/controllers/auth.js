@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { hello } from '../mqtt-server.js';
 
 export const register = async (req, res) => {
     try {
@@ -50,6 +51,7 @@ export const login = async (req, res) => {
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
         delete user.password;
         res.status(200).json({user, token});
+        hello()
     } catch (error) {
         res.status(500).json({error: error.message})
     }

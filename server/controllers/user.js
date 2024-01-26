@@ -1,5 +1,5 @@
 import User from '../models/User.js';
-import { mqttClient } from '../mqtt-server.js';
+import { sendNotification, edit } from '../mqtt-server.js';
 
 export const getUser = async (req, res) => {
     try {
@@ -25,6 +25,7 @@ export const updateUser = async (req, res) => {
 
         const user = await User.findByIdAndUpdate(id, update, { new: true });
 
+        edit()
         res.status(200).json(user);
     } catch (error) {
         res.status(404).json({ error: error.message });
@@ -79,10 +80,8 @@ export const addFriend = async (req, res) => {
             return { _id, firstName, lastName, occupation, location, picture};
         });
         
-        // const message = `New friend added: ${firstName} ${lastName}`;
-        // mqttClient.publish('friendAdded', message);
-        
-        res.status(200).json(formated);
+        sendNotification()
+        res.status(200).json(formated); 
     } catch (error) {
         res.status(404).json({ error: error.message });
     }

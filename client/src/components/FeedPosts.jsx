@@ -54,7 +54,7 @@ function FeedPosts({info}) {
 
     return (
         <>
-            {Array.isArray(posts) && [...posts].reverse().map((post) => <Post key={post._id} info={post} how={[render, setRender]} />)}
+            {Array.isArray(posts) && [...posts].reverse().map((post) => <Post unique={post._id} info={post} />)}
         </>
         
     )
