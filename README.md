@@ -1,43 +1,56 @@
 # Facebook clone
 
-## Opis
+## Description
 
-Jest to projekt uniwersytecki ktory korzystając ze stacku MERN ma odwzorować aplikacje facebook
+Socialapp is an online socialmedia platform where after you make an account you can update your profile and add posts, comments, likes or your friends! It features a backend based on Express framework, frontend is build with React and the database I use is mongoDB. Project also have some ads feature made with SSE, notifications via MQTT and cookies for storing darkmode or lightmode preferences.
 
-## Instalacja
+# Backend
 
-1. Sklonuj repozytorium:
+Backend of application handles:
+- Authorization with JSON webtoken and bcrypt.
+- Creating new account or logging in to an existing account.
+- Creating,deleting or editing posts with description, image (optional), localization (you can create public post or visible only to friends).
+- Likeing and disliking posts
+- Adding comments under post.
+- Edit your profile details
+- Deleting your account
+- Adding and deleting other users as friends
 
-git clone https://github.com/UniversityOfGdanskProjects/projektprogramistyczny-ssjablonski.git
+## File structure
+- controllers/: Contains the logic for handling requests and responses.
+- middleware/: Contains middleware functions that have access to the request and response objects, and the next middleware function in the application’s request-response cycle.
+- models/: Contains the data models for the application, using Mongoose schemas.
+- mqtt/: Contains the MQTT server files.
+- routes/: Contains the route handlers, which define the endpoints of the application.
 
-2. Przejdź do katalogu projektu
+## Technologies Used
 
-cd projektprogramistyczny-ssjablonski
+- Node.js
+- Express.js
+- MongoDB (and mongoose)
+- MQTT
+- HiveMQ
+- JWT (JSON Web Tokens)
+- bcrypt
+  
+# Frontend
 
-3. Zainstaluj zależności w katalogu server oraz client
+Frontend side of application is build with React and Redux. It provides a platform for users to use the functionalities I described in Backend section.
 
-cd server
-npm install
-cd ../client
-npm install
+## File Structure:
 
-4. Uruchom projekt:
+- src/ - This is where the main application code resides.
+- App.js - The main application component.
+- components/ - Contains various reusable components used throughout the application.
+- context/ - Contains the application's context providers.
+- reducer/ - Contains the Redux reducers.
+- scenes/ - Contains the main scenes or pages of the application.
 
-1) w folderze client: npm start
-2) w folderze server: node index.js
+## Technologies Used
 
-## Funkcje
-
--Tworzenie kont oraz rejestrowanie się do serwisu
--Logowanie się na istniejące już konto
--Tworzenie nowych postów z opisem, zdjęciem oraz lokalizacją (publicznych lub tylko dla znajomych)
--Lajkowanie postów
--Dodawanie kometarzy pod postami
--Edycja swoich danych profilu
--Usuwanie konta
--Dodawanie innych użytkowników o znajomych
-
-## Autor
-
-Sebastian Jabłoński (ssjablonski)
-
+- React
+- Redux (and Redux persist)
+- Tailwind
+- Material-UI
+- React Router
+- Formik and Yup
